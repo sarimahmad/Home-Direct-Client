@@ -7,6 +7,9 @@
 > Start
 - npm start
 
+> Push Repo
+- git push origin master
+
 
 ## Features
 - Tools & Materials List
