@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "HomeImproov",
+    "slug": "HomeImproov",
+    "platforms": ["ios", "android", "web"],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./src/assets/icon.png",
+    "splash": {
+      "image": "./src/assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#e63c4b"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.metamedia.homedirect",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.metamedia.homedirect",
+      "versionCode": 1
+    },
+    "description": "A Smart DIY Home Improve Platform that Makes Projects Shoppable",
+    "notification": {
+      "iosDisplayInForeground": true
+    },
+    "extra": {
+      "bugsnag": {
+        "apiKey": "1f89967da16ead7f99e7a2ad11c8f9ac"
+      }
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "@bugsnag/expo/hooks/post-publish.js",
+          "config": {}
+        }
+      ]
+    }
+  }
+}
