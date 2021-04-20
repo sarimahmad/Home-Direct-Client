@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, SectionList, View, Text } from "react-native";
 
 import ActivityIndicator from "../components/ActivityIndicator";
@@ -10,6 +10,7 @@ import routes from "../navigation/routes";
 import Screen from "../components/Screen";
 import AppText from "../components/Text";
 import useApi from "../hooks/useApi";
+import HeaderWithThreeBtn from "../components/HeaderWithThreeBtn";
 
 
 function ArticlesScreen({ navigation }) {
@@ -19,8 +20,14 @@ function ArticlesScreen({ navigation }) {
     getArticlesApi.request();
   }, []);
 
+  const [searchState, setSearchState] = useState(false)
+
   return (
     <>
+      <HeaderWithThreeBtn headerText={'Decks'}
+        searchValue={searchState}
+        backPress={() => this.props.navigation.pop()}
+        searchPress={() => setSearchState(!searchState)} />
       <ActivityIndicator visible={getArticlesApi.loading} />
       <Screen style={styles.screen}>
         {getArticlesApi.error && (
@@ -35,7 +42,7 @@ function ArticlesScreen({ navigation }) {
           renderItem={({ item }) => (
             <Card
               title={item.title}
-              subTitle={"Time: " + item.time}
+              category={'Deck'}
               imageUrl={item.images[0].url}
               onPress={() => navigation.navigate(routes.ARTICLE_DETAILS, item)}
               thumbnailUrl={item.images[0].thumbnailUrl}
@@ -49,7 +56,7 @@ function ArticlesScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   screen: {
-    padding: 20,
+    paddingVertical: 20,
     backgroundColor: colors.light,
   },
 });
