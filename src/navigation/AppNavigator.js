@@ -40,33 +40,6 @@ const AppNavigator = () => {
           ),
         }}
       />
-      <Tab.Screen
-        name="Add Listings"
-        component={ListingEditScreen}
-        options={({ navigation }) => ({
-          // tabBarButton: () => (
-          //   <NewListingButton
-          //     onPress={() => navigation.navigate(routes.LISTING_EDIT)}
-          //   />
-          // ),
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="plus-circle"
-              color={color}
-              size={size}
-            />
-          ),
-        })}
-      />
-        <Tab.Screen
-        name="Settings"
-        component={AccountNavigator}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="menu" color={color} size={size} />
-          ),
-        }}
-      />
     </Tab.Navigator>
 
     
