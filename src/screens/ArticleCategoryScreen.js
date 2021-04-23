@@ -10,10 +10,10 @@ import routes from "../navigation/routes";
 import Screen from "../components/Screen";
 import AppText from "../components/Text";
 import useApi from "../hooks/useApi";
-import HeaderWithThreeBtn from "../components/HeaderWithThreeBtn";
+import HeaderWithLeftLogo from "../components/HeaderWithLeftLogo";
 
 
-function ArticlesScreen({ navigation }) {
+function ArticleCategoryScreen({ navigation }) {
   const getArticlesApi = useApi(articlesApi.getArticles);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ function ArticlesScreen({ navigation }) {
 
   return (
     <>
-      <HeaderWithThreeBtn headerText={'Decks'}
+      <HeaderWithLeftLogo headerText={'Home'}
         searchValue={searchState}
         rightMenuPress={() => navigation.openDrawer()}
         backPress={() => this.props.navigation.pop()}
@@ -45,7 +45,7 @@ function ArticlesScreen({ navigation }) {
               title={item.title}
               category={'Deck'}
               imageUrl={item.images[0].url}
-              onPress={() => navigation.navigate(routes.ARTICLE_DETAILS, item)}
+              onPress={() => navigation.navigate(routes.ARTICLE_SUB_CATEGORY, item)}
               thumbnailUrl={item.images[0].thumbnailUrl}
             />
           )}
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ArticlesScreen;
+export default ArticleCategoryScreen;

@@ -8,7 +8,7 @@ const Stack = createStackNavigator();
 const ArticleNavigator = () => (
   // when set to true the header title blocks the "contact seller" button 
   // this is a feature that will be hidden in Phase 1 and used in Phase 2 
-  <Stack.Navigator mode="modal" screenOptions={{ headerShown: false }}>
+  <Stack.Navigator  screenOptions={{ headerShown: false }}>
     <Stack.Screen name="Home" component={ArticlesScreen} />
     <Stack.Screen name="ArticleDetails" component={ArticleDetailsScreen} />
   </Stack.Navigator>
