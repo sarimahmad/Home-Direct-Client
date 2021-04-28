@@ -13,7 +13,7 @@ import useApi from "../hooks/useApi";
 import HeaderWithThreeBtn from "../components/HeaderWithThreeBtn";
 
 
-function ArticlesScreen({ navigation }) {
+function ArticlesScreen({ navigation, route }) {
   const getArticlesApi = useApi(articlesApi.getArticles);
 
   useEffect(() => {
@@ -23,11 +23,11 @@ function ArticlesScreen({ navigation }) {
   const [searchState, setSearchState] = useState(false)
 
   return (
-    <>
-      <HeaderWithThreeBtn headerText={'Decks'}
+    <View style={styles.mainScreen}>
+      <HeaderWithThreeBtn headerText={route.params ?.name}
         searchValue={searchState}
         rightMenuPress={() => navigation.openDrawer()}
-        backPress={() => this.props.navigation.pop()}
+        backPress={() => navigation.pop()}
         searchPress={() => setSearchState(!searchState)} />
       <ActivityIndicator visible={getArticlesApi.loading} />
       <Screen style={styles.screen}>
@@ -51,13 +51,16 @@ function ArticlesScreen({ navigation }) {
           )}
         />
       </Screen>
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  mainScreen: {
+   flex: 1,
+  },
   screen: {
-    paddingVertical: 20,
+    paddingTop: 10,
     backgroundColor: colors.light,
   },
 });

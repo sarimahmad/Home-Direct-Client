@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   View,
   ScrollView,
@@ -14,6 +14,7 @@ import colors from "../config/colors";
 import ContactSellerForm from "../components/ContactSellerForm";
 import ListItem from "../components/lists/ListItem";
 import Text from "../components/Text";
+import HeaderWithThreeBtn from "../components/HeaderWithThreeBtn";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 // This is just for demo purposes. 
@@ -30,9 +31,9 @@ const materialsList = [
   { id: 5, title: 'Wood shims' },
 ];
 
-function ListingDetailsScreen({ route }) {
+function ListingDetailsScreen({ route, navigation }) {
   const listing = route.params;
-
+  const [searchState, setSearchState] = useState(false);
   return (
     // ** this produces an error (Virtualized lists should never be nested inside plain ScrollViews...) 
     // and should be fixed 
@@ -41,6 +42,11 @@ function ListingDetailsScreen({ route }) {
       behavior="position"
       keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 100}
     > */}
+    <HeaderWithThreeBtn headerText={'Home'}
+        searchValue={searchState}
+        rightMenuPress={() => navigation.openDrawer()}
+        backPress={() => this.props.navigation.pop()}
+        searchPress={() => setSearchState(!searchState)} />
       <Image
         style={styles.image}
         preview={{ uri: listing.images[0].thumbnailUrl }}

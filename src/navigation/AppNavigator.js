@@ -42,7 +42,7 @@ const TabStack = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="HomeScreen"
+        name="Home"
         component={ArticleCategoryScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -51,7 +51,7 @@ const TabStack = () => {
         }}
       />
       <Tab.Screen
-        name="ExploreScreen"
+        name="Projects"
         component={ListingsScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -65,7 +65,7 @@ const TabStack = () => {
 
 const HomeScreenStack = ({ navigation }) => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="HomeScreen" drawerContent={(props) => <CustomSidebarMenu {...props} />}>
+    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Home" drawerContent={(props) => <CustomSidebarMenu {...props} />}>
       <Stack.Screen
         name="TabStack"
         component={TabStack}

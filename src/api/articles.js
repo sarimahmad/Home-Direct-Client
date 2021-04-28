@@ -1,8 +1,10 @@
 import client from "./client";
 
 const endpoint = "/articles";
+const endpointCategories = "/categories";
 
 const getArticles = () => client.get(endpoint);
+const getCategories = () => client.get(endpointCategories);
 
 export const addArticle = (article, onUploadProgress) => {
   const data = new FormData();
@@ -31,4 +33,5 @@ export const addArticle = (article, onUploadProgress) => {
 export default {
   addArticle,
   getArticles,
+  getCategories,
 };
