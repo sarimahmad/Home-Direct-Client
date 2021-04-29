@@ -20,9 +20,9 @@ function ArticleCategoryScreen({ navigation }) {
 
   const [searchState, setSearchState] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [indoorList, setIndoorList] = useState([]);
-  const [outdoorList, setOutdoorList] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [indoorList, setIndoorList] = useState([])
+  const [outdoorList, setOutdoorList] = useState([])
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     indoorCategories = []
     outdoorCategories = []
@@ -36,7 +36,7 @@ function ArticleCategoryScreen({ navigation }) {
     });
     setIndoorList(indoorCategories);
     setOutdoorList(outdoorCategories);
-    setLoading(false)
+    indoorCategories.length > 0 && setLoading(false)
   }, []);
 
 

@@ -6,17 +6,13 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import AccountNavigator from "./AccountNavigator";
-import ArticleNavigator from "./ArticleNavigator";
-import ListNavigator from "./ListNavigator";
 import ArticlesScreen from "../screens/ArticlesScreen";
 import ArticleCategoryScreen from "../screens/ArticleCategoryScreen";
 import ArticleDetailsScreen from "../screens/ArticleDetailsScreen";
 import ListingsScreen from "../screens/ListingsScreen";
+import ListingDetailsScreen from "../screens/ListingDetailsScreen";
 import LoginScreen from "../screens/LoginScreen";
-import NewListingButton from "./NewListingButton";
-import routes from "./routes";
-import navigation from "./rootNavigation";
+import ListingEditScreen from '../screens/ListingEditScreen'
 import useNotifications from "../hooks/useNotifications";
 import CustomSidebarMenu from './CustomSidebarMenu';
 
@@ -51,7 +47,7 @@ const TabStack = () => {
         }}
       />
       <Tab.Screen
-        name="Projects"
+        name="Lists"
         component={ListingsScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -77,6 +73,14 @@ const HomeScreenStack = ({ navigation }) => {
       <Stack.Screen
         name="ArticleDetails"
         component={ArticleDetailsScreen}
+      />
+      <Stack.Screen
+        name="ListingDetails"
+        component={ListingDetailsScreen}
+      />
+      <Stack.Screen
+        name="AddNewList"
+        component={ListingEditScreen}
       />
     </Stack.Navigator>
   );

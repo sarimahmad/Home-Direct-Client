@@ -45,7 +45,7 @@ function ArticlesScreen({ navigation, route }) {
               title={item.title}
               category={'Deck'}
               imageUrl={item.images[0].url}
-              onPress={() => navigation.navigate(routes.ARTICLE_DETAILS, item)}
+              onPress={() => navigation.navigate(routes.ARTICLE_DETAILS, {item: item, name: route.params?.name})}
               thumbnailUrl={item.images[0].thumbnailUrl}
             />
           )}
