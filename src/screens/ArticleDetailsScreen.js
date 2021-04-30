@@ -8,6 +8,7 @@ import {
   SectionList,
   Image,
 } from "react-native";
+import { SimpleLineIcons, AntDesign, MaterialIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
 import Text from "../components/Text";
@@ -101,7 +102,7 @@ function ListingDetailsScreen({ route, navigation }) {
         {/* </KeyboardAvoidingView> */}
       </ScrollView>
       <TouchableOpacity style={styles.AbsoluteAddBtn} activeOpacity={0.8} onPress={() => setAddModalVisible(true)} >
-        <Text style={styles.AddBtnTxt}>+</Text>
+      <MaterialIcons name="add" color={colors.white} size={30} />
       </TouchableOpacity>
       <Modal
         animationType="slide"

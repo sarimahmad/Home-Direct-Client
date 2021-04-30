@@ -41,13 +41,14 @@ function ArticlesScreen({ navigation, route }) {
           data={getArticlesApi.data}
           keyExtractor={(article) => article.id.toString()}
           renderItem={({ item }) => (
+            item.categoryId === route.params.id ? 
             <Card
               title={item.title}
-              category={'Deck'}
+              category={route.params ?.name}
               imageUrl={item.images[0].url}
               onPress={() => navigation.navigate(routes.ARTICLE_DETAILS, {item: item, name: route.params?.name})}
               thumbnailUrl={item.images[0].thumbnailUrl}
-            />
+            /> : <></>
           )}
         />
       </Screen>

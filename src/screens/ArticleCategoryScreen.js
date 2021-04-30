@@ -15,14 +15,14 @@ import { SCREEN } from "../config/Constant";
 
 var indoorCategories = [];
 var outdoorCategories = [];
-function ArticleCategoryScreen({ navigation }) {
+function ArticleCategoryScreen({ navigation, route }) {
   const getArticlesCategoriesApi = useApi(articlesApi.getCategories);
 
   const [searchState, setSearchState] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [indoorList, setIndoorList] = useState([])
-  const [outdoorList, setOutdoorList] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [indoorList, setIndoorList] = useState([]);
+  const [outdoorList, setOutdoorList] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     indoorCategories = []
     outdoorCategories = []

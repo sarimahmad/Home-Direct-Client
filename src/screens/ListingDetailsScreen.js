@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   View,
   StyleSheet,
@@ -12,15 +12,22 @@ import colors from "../config/colors";
 import ContactSellerForm from "../components/ContactSellerForm";
 import ListItem from "../components/lists/ListItem";
 import Text from "../components/Text";
+import HeaderWithThreeBtn from "../components/HeaderWithThreeBtn";
 
-function ListingDetailsScreen({ route }) {
+function ListingDetailsScreen({ route, navigation }) {
   const listing = route.params;
+  const [searchState, setSearchState] = useState(false);
 
   return (
     <KeyboardAvoidingView
       behavior="position"
       keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 100}
     >
+      <HeaderWithThreeBtn headerText={'Lists'}
+        searchValue={searchState}
+        rightMenuPress={() => navigation.openDrawer()}
+        backPress={() => navigation.pop()}
+        searchPress={() => setSearchState(!searchState)} />
       <Image
         style={styles.image}
         preview={{ uri: listing.images[0].thumbnailUrl }}
