@@ -45,9 +45,9 @@ function ArticlesScreen({ navigation, route }) {
             <Card
               title={item.title}
               category={route.params ?.name}
-              imageUrl={item.images[0].url}
+              imageUrl={'http://localhost:9000/assets/shoes1_full.jpg'}
               onPress={() => navigation.navigate(routes.ARTICLE_DETAILS, {item: item, name: route.params?.name})}
-              thumbnailUrl={item.images[0].thumbnailUrl}
+              thumbnailUrl={'http://localhost:9000/assets/shoes1_full.jpg'}
             /> : <></>
           )}
         />

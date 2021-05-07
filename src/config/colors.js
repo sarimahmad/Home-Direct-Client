@@ -11,4 +11,5 @@ export default {
   grey: "#858585",
   blue: "#014070",
   cadet: "#4E6D7B",
+  lightWhite: '#efefef',
 };

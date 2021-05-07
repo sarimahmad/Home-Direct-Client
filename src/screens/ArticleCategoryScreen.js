@@ -16,17 +16,24 @@ import { SCREEN } from "../config/Constant";
 var indoorCategories = [];
 var outdoorCategories = [];
 function ArticleCategoryScreen({ navigation, route }) {
-  const getArticlesCategoriesApi = useApi(articlesApi.getCategories);
 
+  const getArticlesCategoriesApi = useApi(articlesApi.getCategories);
+  const getArticlesApi = useApi(articlesApi.getArticles);
   const [searchState, setSearchState] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [indoorList, setIndoorList] = useState([]);
-  const [outdoorList, setOutdoorList] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [indoorList, setIndoorList] = useState('');
+  const [outdoorList, setOutdoorList] = useState('');
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
+    getArticlesCategoriesApi.request();
+    getArticlesApi.request();
+    sortData();
+  }, []);
+
+  function sortData() {
     indoorCategories = []
     outdoorCategories = []
-    getArticlesCategoriesApi.request();
     getArticlesCategoriesApi.data && getArticlesCategoriesApi.data.forEach(element => {
       if (element.superCategory === 'outdoor') {
         outdoorCategories.push(element)
@@ -34,11 +41,19 @@ function ArticleCategoryScreen({ navigation, route }) {
         indoorCategories.push(element)
       }
     });
+    
     setIndoorList(indoorCategories);
     setOutdoorList(outdoorCategories);
-    indoorCategories.length > 0 && setLoading(false)
-  }, []);
+    setLoading(!loading)
+  }
 
+  getCount = (id) => {
+    let count = 0;
+    getArticlesCategoriesApi.data && getArticlesApi.data.forEach(element => {
+      if (element.categoryId === id) { count++ }
+    });
+    return count;
+  }
 
   return (
     <View style={styles.mainScreen}>
@@ -50,40 +65,50 @@ function ArticleCategoryScreen({ navigation, route }) {
       <ActivityIndicator visible={getArticlesCategoriesApi.loading} />
 
       <View style={styles.SwtchWrapper}>
-        <TouchableOpacity onPress={() => setSelectedIndex(0)} activeOpacity={0.8} style={[styles.Flex1, { backgroundColor: selectedIndex === 0 ? '#e03c1f' : 'rgba(226, 226, 226, 1)' }]}>
+        <TouchableOpacity onPress={() => setSelectedIndex(0)} activeOpacity={0.8} style={[styles.Flex1, { backgroundColor: selectedIndex === 0 ? colors.orange : 'rgba(226, 226, 226, 1)' }]}>
           <Text style={styles.CategoryText}>Indoor</Text>
+          <View style={styles.rightAbsoluteView}>
+            <Text style={styles.countText}>{'6'}</Text>
+          </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setSelectedIndex(1)} activeOpacity={0.8} style={[styles.Flex1, { backgroundColor: selectedIndex === 1 ? '#e03c1f' : 'rgba(226, 226, 226, 1)' }]}>
+        <TouchableOpacity onPress={() => setSelectedIndex(1)} activeOpacity={0.8} style={[styles.Flex1, { backgroundColor: selectedIndex === 1 ? colors.orange : 'rgba(226, 226, 226, 1)' }]}>
           <Text style={styles.CategoryText}>Outdoor</Text>
+          <View style={styles.rightAbsoluteView}>
+            <Text style={styles.countText}>{'4'}</Text>
+          </View>
         </TouchableOpacity>
       </View>
       <Screen style={styles.screen}>
         {getArticlesCategoriesApi.error && (
           <>
-            <AppText>Couldn't retrieve the articles.</AppText>
+            <AppText>Couldn't retrieve the Menu.</AppText>
             <Button title="Retry" onPress={getArticlesCategoriesApi.request} />
           </>
         )}
-        {selectedIndex == 0 && indoorList.length > 0 && !loading ? <FlatList
+        {selectedIndex == 0 ? <FlatList
           data={indoorList}
           keyExtractor={(item, index) => index.toString()}
+          extraData={getArticlesCategoriesApi.data}
           renderItem={({ item }) => (
             <CategoryCard
+              countValue={getCount(item.id)}
               title={item.name}
               onPress={() => navigation.navigate(routes.ARTICLE_SUB_CATEGORY, item)}
             />
           )}
-        /> : outdoorList.length > 0 && !loading &&
-        <FlatList
-          data={outdoorList}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <CategoryCard
-              title={item.name}
-              onPress={() => navigation.navigate(routes.ARTICLE_SUB_CATEGORY, item)}
-            />
-          )}
-        />}
+        /> :
+          <FlatList
+            data={outdoorList}
+            keyExtractor={(item, index) => index.toString()}
+            extraData={getArticlesCategoriesApi.data}
+            renderItem={({ item }) => (
+              <CategoryCard
+                countValue={getCount(item.id)}
+                title={item.name}
+                onPress={() => navigation.navigate(routes.ARTICLE_SUB_CATEGORY, item)}
+              />
+            )}
+          />}
       </Screen>
     </View>
   );
@@ -104,6 +129,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
   },
   CategoryText: {
     fontSize: 15,
@@ -111,6 +137,21 @@ const styles = StyleSheet.create({
   },
   mainScreen: {
     flex: 1,
+  },
+  rightAbsoluteView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    right: 20,
+    height: 30,
+    width: 30,
+    borderRadius: 15,
+    paddingVertical: 7,
+    backgroundColor: 'rgba(246, 246, 246, 1)',
+  },
+  countText: {
+    color: colors.medium,
+    fontSize: 13,
   },
 });
 

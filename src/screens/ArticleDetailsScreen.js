@@ -50,7 +50,8 @@ function ListingDetailsScreen({ route, navigation }) {
         <View style={styles.imageWrapper}>
           <Image
             style={styles.image}
-            source={{ uri: listing.images[0].url }}
+            // source={{ uri: listing.images[0].url }}
+            source={{ uri: 'http://localhost:9000/assets/shoes1_full.jpg' }}
           />
           <Text style={styles.title}>{listing.title}</Text>
           <Text style={styles.subTitle}>{'Family Handyman'}</Text>
@@ -102,7 +103,7 @@ function ListingDetailsScreen({ route, navigation }) {
         {/* </KeyboardAvoidingView> */}
       </ScrollView>
       <TouchableOpacity style={styles.AbsoluteAddBtn} activeOpacity={0.8} onPress={() => setAddModalVisible(true)} >
-      <MaterialIcons name="add" color={colors.white} size={30} />
+        <MaterialIcons name="add" color={colors.white} size={30} />
       </TouchableOpacity>
       <Modal
         animationType="slide"
@@ -111,31 +112,40 @@ function ListingDetailsScreen({ route, navigation }) {
         onRequestClose={() => {
           setAddModalVisible(false)
         }}>
-          <TouchableOpacity style={styles.ModalMainView} activeOpacity={0.95} onPress={() => setAddModalVisible(false)}>
-             <TouchableOpacity style={styles.ModalBottomView} activeOpacity={1}>
-               <View style={styles.TopDividerView}>
-                 <Text style={styles.TopDividerText}>----</Text>
-               </View>
-               <TouchableOpacity style={styles.ModalItemWrapper} activeOpacity={0.8}>
-                <View style={styles.AddWrapper}>
-                  <Text style={styles.AddTecxt}>+</Text>
-                </View>
-                <Text style={styles.ItemText}> Add all</Text>
-               </TouchableOpacity>
-               <TouchableOpacity style={styles.ModalItemWrapper} activeOpacity={0.8}>
-                <View style={styles.AddWrapper}>
-                  <Text style={styles.AddTecxt}>+</Text>
-                </View>
-                <Text style={styles.ItemText}> Add tools</Text>
-               </TouchableOpacity>
-               <TouchableOpacity style={styles.ModalItemWrapper} activeOpacity={0.8}>
-                <View style={styles.AddWrapper}>
-                  <Text style={styles.AddTecxt}>+</Text>
-                </View>
-                <Text style={styles.ItemText}> Add material</Text>
-               </TouchableOpacity>
-             </TouchableOpacity>
+        <TouchableOpacity style={styles.ModalMainView} activeOpacity={0.95} onPress={() => setAddModalVisible(false)}>
+          <TouchableOpacity style={styles.ModalBottomView} activeOpacity={1}>
+            <View style={styles.TopDividerView}>
+              <Text style={styles.TopDividerText}>----</Text>
+            </View>
+            <TouchableOpacity style={styles.ModalItemWrapper} activeOpacity={0.8} onPress={() => {
+              setAddModalVisible(false)
+              navigation.navigate('ToolsMaterial', { type: 'all', toolsList, materialsList, listing })
+            }}>
+              <View style={styles.AddWrapper}>
+                <Text style={styles.AddTecxt}>+</Text>
+              </View>
+              <Text style={styles.ItemText}> Add all</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.ModalItemWrapper} activeOpacity={0.8} onPress={() => {
+              setAddModalVisible(false)
+              navigation.navigate('ToolsMaterial', { type: 'tool', toolsList , listing})
+            }}>
+              <View style={styles.AddWrapper}>
+                <Text style={styles.AddTecxt}>+</Text>
+              </View>
+              <Text style={styles.ItemText}> Add tools</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.ModalItemWrapper} activeOpacity={0.8} onPress={() => {
+              setAddModalVisible(false)
+              navigation.navigate('ToolsMaterial', { type: 'material', materialsList , listing})
+            }}>
+              <View style={styles.AddWrapper}>
+                <Text style={styles.AddTecxt}>+</Text>
+              </View>
+              <Text style={styles.ItemText}> Add material</Text>
+            </TouchableOpacity>
           </TouchableOpacity>
+        </TouchableOpacity>
       </Modal>
     </View>
   );

@@ -4,7 +4,7 @@ import { View, StyleSheet, TouchableWithoutFeedback, Image } from "react-native"
 import Text from "./Text";
 import colors from "../config/colors";
 
-function CategoryCard({ title, count, imageUrl, onPress, thumbnailUrl }) {
+function CategoryCard({ title, count, imageUrl, onPress, thumbnailUrl, countValue }) {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.card}>
@@ -20,7 +20,7 @@ function CategoryCard({ title, count, imageUrl, onPress, thumbnailUrl }) {
             {count}
           </Text>
           <View style={styles.rightAbsoluteView}>
-            <Text style={styles.countText}>{Math.floor(Math.random() * 10)}</Text>
+            <Text style={styles.countText}>{countValue}</Text>
           </View>
         </View>
     </TouchableWithoutFeedback>

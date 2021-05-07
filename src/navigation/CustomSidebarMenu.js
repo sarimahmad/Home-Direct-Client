@@ -19,13 +19,11 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 
-import ListItem from '../components/lists/ListItem'
 import colors from '../config/colors';
 import Icon from "../components/Icon";
 
 const CustomSidebarMenu = (props) => {
 
-  const { user, logOut } = useAuth();
   const BASE_PATH =
     'https://raw.githubusercontent.com/AboutReact/sampleresource/master/';
   const proileImage = 'react_logo.png';
@@ -39,9 +37,10 @@ const CustomSidebarMenu = (props) => {
         {/*Top Large Image */}
         <View style={styles.customItem}>
           <TouchableOpacity style={styles.RowView} activeOpacity={0.8} onPress={() => props.navigation.navigate('Account')}>
-            <View style={styles.UserImageWrapper}>
-              <FontAwesome name="user-circle-o" size={20} color={colors.white} />
-            </View>
+            <Icon
+
+              name="account-circle"
+              backgroundColor="#4E6D7B" />
             <View style={styles.NameDetailWrapper}>
               <Text style={styles.Nametext}>
                 Joseph

@@ -5,16 +5,18 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createStackNavigator } from '@react-navigation/stack';
 
 import AccountScreen from "../screens/AccountScreen";
+import AddNewScreen from '../screens/AddNewScreen';
 import ArticlesScreen from "../screens/ArticlesScreen";
 import ArticleCategoryScreen from "../screens/ArticleCategoryScreen";
 import ArticleDetailsScreen from "../screens/ArticleDetailsScreen";
 import ListingsScreen from "../screens/ListingsScreen";
 import ListingDetailsScreen from "../screens/ListingDetailsScreen";
-import LoginScreen from "../screens/LoginScreen";
+import ToolsMaterialScreen from "../screens/ToolsMaterialScreen";
 import ListingEditScreen from '../screens/ListingEditScreen'
 import useNotifications from "../hooks/useNotifications";
 import CustomSidebarMenu from './CustomSidebarMenu';
 import colors from "../config/colors";
+import Icon from "../components/Icon";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -45,7 +47,6 @@ const TabStack = () => {
   );
 };
 
-
 const HomeScreenStack = ({ props }) => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }} drawerContent={(props) => <CustomSidebarMenu {...props} />}>
@@ -56,6 +57,10 @@ const HomeScreenStack = ({ props }) => {
       <Stack.Screen
         name="ArticleSub"
         component={ArticlesScreen}
+      />
+      <Stack.Screen
+        name="AddNew"
+        component={AddNewScreen}
       />
       <Stack.Screen
         name="ArticleDetails"
@@ -71,12 +76,18 @@ const HomeScreenStack = ({ props }) => {
       />
       <Stack.Screen
         name="Account"
-        options={{headerShown: true}}
+        options={{ headerShown: true }}
         component={AccountScreen}
+      />
+      <Stack.Screen
+        name="ToolsMaterial"
+        options={{ headerShown: false }}
+        component={ToolsMaterialScreen}
       />
     </Stack.Navigator>
   );
 };
+
 
 const AppNavigator = () => {
   useNotifications();
@@ -98,7 +109,7 @@ const AppNavigator = () => {
         options={{
           title: 'Home',
           drawerIcon: ({ focused, size }) => (
-            <MaterialCommunityIcons name="home" color={focused ? '#e03c1f' : '#0a0808'} size={size} />
+            <Icon name="home" backgroundColor={colors.orange} />
           )
         }}
         component={HomeScreenStack} />
@@ -107,7 +118,7 @@ const AppNavigator = () => {
         options={{
           title: 'Lists',
           drawerIcon: ({ focused, size }) => (
-            <MaterialCommunityIcons name="format-list-bulleted" color={focused ? '#e03c1f' : '#0a0808'} size={size} />
+            <Icon name="format-list-bulleted" backgroundColor={colors.blue} />
           )
         }}
         component={HomeScreenStack} />
