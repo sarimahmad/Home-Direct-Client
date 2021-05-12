@@ -24,9 +24,9 @@ function HeaderWithThreeBtn({ headerText, rightMenuPress, searchPress, searchVal
       </TouchableHighlight>
       {!searchValue ? <View style={styles.flex1Wrapper}>
         <View style={styles.headerTextWrapper}>
-          <Text style={styles.headerText}>
+          {headerText ? <Text style={styles.headerText}>
             {headerText}
-          </Text>
+          </Text> : <Image style={styles.headerLogoStyle} source={require('../../assets/logo.png')} />}
         </View>
         <View style={styles.rightWrapper}>
           <TouchableHighlight
@@ -107,7 +107,13 @@ const styles = StyleSheet.create({
     fontFamily: Platform.OS === "android"
       ? "Roboto"
       : "Avenir",
-      paddingHorizontal: 10,
+    paddingHorizontal: 10,
+  },
+
+  headerLogoStyle: {
+    height: '90%',
+    width: 130,
+    resizeMode: 'contain',
   }
 });
 

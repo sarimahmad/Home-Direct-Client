@@ -15,8 +15,8 @@ import { SCREEN } from "../config/Constant";
 
 var indoorCategories = [];
 var outdoorCategories = [];
-function ArticleCategoryScreen({ navigation, route }) {
 
+function ArticleCategoryScreen({ navigation, route }) {
   const getArticlesCategoriesApi = useApi(articlesApi.getCategories);
   const getArticlesApi = useApi(articlesApi.getArticles);
   const [searchState, setSearchState] = useState(false);
@@ -41,7 +41,6 @@ function ArticleCategoryScreen({ navigation, route }) {
         indoorCategories.push(element)
       }
     });
-    
     setIndoorList(indoorCategories);
     setOutdoorList(outdoorCategories);
     setLoading(!loading)
@@ -63,7 +62,6 @@ function ArticleCategoryScreen({ navigation, route }) {
         backPress={() => this.props.navigation.pop()}
         searchPress={() => setSearchState(!searchState)} />
       <ActivityIndicator visible={getArticlesCategoriesApi.loading} />
-
       <View style={styles.SwtchWrapper}>
         <TouchableOpacity onPress={() => setSelectedIndex(0)} activeOpacity={0.8} style={[styles.Flex1, { backgroundColor: selectedIndex === 0 ? colors.orange : 'rgba(226, 226, 226, 1)' }]}>
           <Text style={styles.CategoryText}>Indoor</Text>

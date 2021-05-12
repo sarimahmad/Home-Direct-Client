@@ -12,7 +12,7 @@ import Constants from "expo-constants";
 
 import colors from "../../config/colors";
 
-function HeaderWithLeftLogo({ headerText, rightMenuPress, searchPress, searchValue, backPress }) {
+function HeaderWithLeftLogo({ rightMenuPress, searchPress, searchValue, backPress }) {
 
   return (
     <View style={styles.wrapper}>

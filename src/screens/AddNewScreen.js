@@ -9,14 +9,12 @@ import {
   Image,
   Text
 } from "react-native";
-import { Entypo, AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { Entypo, MaterialIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
-import { SCREEN } from "../config/Constant";
 import { FlatList, TextInput } from "react-native-gesture-handler";
-import { color, set } from "react-native-reanimated";
 
-function AddNewScreen({ route, navigation }) {
+function AddProjectScreen({ route, navigation }) {
   const [searchValue, setSearchValue] = useState('');
   return (
 
@@ -102,4 +100,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default AddNewScreen;
+export default AddProjectScreen;

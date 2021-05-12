@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import AccountScreen from "../screens/AccountScreen";
 import AddNewScreen from '../screens/AddNewScreen';
+import AddProjectScreen from '../screens/AddProjectScreen';
 import ArticlesScreen from "../screens/ArticlesScreen";
 import ArticleCategoryScreen from "../screens/ArticleCategoryScreen";
 import ArticleDetailsScreen from "../screens/ArticleDetailsScreen";
@@ -83,6 +84,11 @@ const HomeScreenStack = ({ props }) => {
         name="ToolsMaterial"
         options={{ headerShown: false }}
         component={ToolsMaterialScreen}
+      />
+      <Stack.Screen
+        name="AddProject"
+        options={{ headerShown: false }}
+        component={AddProjectScreen}
       />
     </Stack.Navigator>
   );

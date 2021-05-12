@@ -8,7 +8,7 @@ import {
   SectionList,
   Image,
 } from "react-native";
-import { SimpleLineIcons, AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
 import Text from "../components/Text";
@@ -119,7 +119,7 @@ function ListingDetailsScreen({ route, navigation }) {
             </View>
             <TouchableOpacity style={styles.ModalItemWrapper} activeOpacity={0.8} onPress={() => {
               setAddModalVisible(false)
-              navigation.navigate('ToolsMaterial', { type: 'all', toolsList, materialsList, listing })
+              navigation.navigate('AddProject', { type: 'all', toolsList, materialsList, listing })
             }}>
               <View style={styles.AddWrapper}>
                 <Text style={styles.AddTecxt}>+</Text>
@@ -128,7 +128,7 @@ function ListingDetailsScreen({ route, navigation }) {
             </TouchableOpacity>
             <TouchableOpacity style={styles.ModalItemWrapper} activeOpacity={0.8} onPress={() => {
               setAddModalVisible(false)
-              navigation.navigate('ToolsMaterial', { type: 'tool', toolsList , listing})
+              navigation.navigate('AddProject', { type: 'tool', toolsList , listing})
             }}>
               <View style={styles.AddWrapper}>
                 <Text style={styles.AddTecxt}>+</Text>
@@ -137,7 +137,7 @@ function ListingDetailsScreen({ route, navigation }) {
             </TouchableOpacity>
             <TouchableOpacity style={styles.ModalItemWrapper} activeOpacity={0.8} onPress={() => {
               setAddModalVisible(false)
-              navigation.navigate('ToolsMaterial', { type: 'material', materialsList , listing})
+              navigation.navigate('AddProject', { type: 'material', materialsList , listing})
             }}>
               <View style={styles.AddWrapper}>
                 <Text style={styles.AddTecxt}>+</Text>
