@@ -59,9 +59,9 @@ function ArticleCategoryScreen({ navigation, route }) {
       <HeaderWithLeftLogo headerText={'Home'}
         searchValue={searchState}
         rightMenuPress={() => navigation.openDrawer()}
-        backPress={() => this.props.navigation.pop()}
         searchPress={() => setSearchState(!searchState)} />
       <ActivityIndicator visible={getArticlesCategoriesApi.loading} />
+      
       <View style={styles.SwtchWrapper}>
         <TouchableOpacity onPress={() => setSelectedIndex(0)} activeOpacity={0.8} style={[styles.Flex1, { backgroundColor: selectedIndex === 0 ? colors.orange : 'rgba(226, 226, 226, 1)' }]}>
           <Text style={styles.CategoryText}>Indoor</Text>
@@ -111,6 +111,7 @@ function ArticleCategoryScreen({ navigation, route }) {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   screen: {

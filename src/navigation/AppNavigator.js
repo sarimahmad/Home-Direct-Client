@@ -8,7 +8,6 @@ import AccountScreen from "../screens/AccountScreen";
 import AddNewScreen from '../screens/AddNewScreen';
 import AddProjectScreen from '../screens/AddProjectScreen';
 import ArticlesScreen from "../screens/ArticlesScreen";
-import ArticleCategoryScreen from "../screens/ArticleCategoryScreen";
 import ArticleDetailsScreen from "../screens/ArticleDetailsScreen";
 import ListingsScreen from "../screens/ListingsScreen";
 import ListingDetailsScreen from "../screens/ListingDetailsScreen";
@@ -18,6 +17,8 @@ import useNotifications from "../hooks/useNotifications";
 import CustomSidebarMenu from './CustomSidebarMenu';
 import colors from "../config/colors";
 import Icon from "../components/Icon";
+import ArticleNavigator from './ArticleNavigator'
+import ListNavigator from './ListNavigator'
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -28,7 +29,7 @@ const TabStack = () => {
     <Tab.Navigator initialRouteName={'Home'}>
       <Tab.Screen
         name="Home"
-        component={ArticleCategoryScreen}
+        component={ArticleNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
@@ -37,7 +38,7 @@ const TabStack = () => {
       />
       <Tab.Screen
         name="Lists"
-        component={ListingsScreen}
+        component={ListNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="format-list-bulleted" color={color} size={size} />

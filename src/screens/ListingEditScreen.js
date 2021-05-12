@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import * as Yup from "yup";
+
+import HeaderWithThreeBtn from "../components/HeaderWithThreeBtn";
 
 import {
   Form,
@@ -80,10 +82,11 @@ const categories = [
   },
 ];
 
-function ListingEditScreen() {
+function ListingEditScreen({ navigation, route }) {
   const location = useLocation();
   const [uploadVisible, setUploadVisible] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [searchState, setSearchState] = useState(false);
 
   const handleSubmit = async (listing, { resetForm }) => {
     setProgress(0);
@@ -102,6 +105,12 @@ function ListingEditScreen() {
   };
 
   return (
+    <View style={styles.MainWrapper}>
+      <HeaderWithThreeBtn headerText={'Lists'}
+        searchValue={searchState}
+        rightMenuPress={() => navigation.openDrawer()}
+        backPress={() => navigation.pop()}
+        searchPress={() => setSearchState(!searchState)} />
     <Screen style={styles.container}>
       <UploadScreen
         onDone={() => setUploadVisible(false)}
@@ -146,6 +155,7 @@ function ListingEditScreen() {
         <SubmitButton title="Add List" />
       </Form>
     </Screen>
+    </View>
   );
 }
 
@@ -153,5 +163,8 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
   },
+  MainWrapper: {
+    flex: 1,
+  }
 });
 export default ListingEditScreen;

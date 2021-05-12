@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   SectionList,
   Image,
+  Linking,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -64,7 +65,7 @@ function ListingDetailsScreen({ route, navigation }) {
           <TouchableOpacity style={[styles.flex1View, { backgroundColor: '#e03c1f' }]} activeOpacity={0.8}>
             <Text style={[styles.switchText, { color: 'white' }]}>List</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.flex1View} activeOpacity={0.8}>
+          <TouchableOpacity style={styles.flex1View} activeOpacity={0.8} onPress={() => Linking.openURL('https://www.familyhandyman.com/article/how-to-refinish-a-deck-with-acrylic-based-deck-stain/')}>
             <Text style={styles.switchText}>How To Article</Text>
           </TouchableOpacity>
         </View>

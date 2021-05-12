@@ -14,11 +14,24 @@ import CardList from "../components/CardList";
 import HeaderWithThreeBtn from "../components/HeaderWithThreeBtn";
 import { SCREEN } from "../config/Constant";
 
+const toolsList = [
+  { id: 2, title: 'Drill bits' },
+  { id: 3, title: 'Electrical tape' },
+  { id: 17, title: 'Stud finder' },
+];
+
+const materialsList = [
+  { id: 1, title: 'Drywall screws' },
+  { id: 4, title: 'Putty' },
+  { id: 5, title: 'Wood shims' },
+];
+
 function ListingsScreen({ navigation, route }) {
   const getListingsApi = useApi(listingsApi.getListings);
   const [searchState, setSearchState] = useState(false);
   const [optionModalVisible, setOptionModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState({});
 
   useEffect(() => {
     getListingsApi.request();
@@ -50,15 +63,16 @@ function ListingsScreen({ navigation, route }) {
               imageUrl={item.images[0].url}
               optionSelected={() => {
                 setOptionModalVisible(true)
+                setSelectedItem(item)
               }}
-              onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
+              onPress={() => navigation.navigate('ToolsMaterial', { type: 'all', materialsList, toolsList, listing: item })}
               thumbnailUrl={item.images[0].thumbnailUrl}
             />
           )}
         />
       </Screen>
       <TouchableOpacity style={styles.AbsoluteAddBtn} onPress={() => navigation.navigate('AddNewList')} activeOpacity={0.8}>
-         <MaterialIcons name="add" color={colors.white} size={60} />
+        <MaterialIcons name="add" color={colors.white} size={30} />
       </TouchableOpacity>
       <Modal
         animationType="slide"
@@ -72,7 +86,10 @@ function ListingsScreen({ navigation, route }) {
             <View style={styles.TopDividerView}>
               <Text style={styles.TopDividerText}>----</Text>
             </View>
-            <TouchableOpacity style={styles.ModalItemWrapper} activeOpacity={0.8}>
+            <TouchableOpacity style={styles.ModalItemWrapper} activeOpacity={0.8} onPress={() => {
+              setOptionModalVisible(false);
+              navigation.navigate('ToolsMaterial', { type: 'all', materialsList, toolsList, listing: selectedItem })
+            }} >
               <View style={styles.AddWrapper}>
                 <SimpleLineIcons name="eye" color={'grey'} size={20} />
               </View>
@@ -100,16 +117,16 @@ function ListingsScreen({ navigation, route }) {
         <TouchableOpacity style={styles.ModalMainView2} activeOpacity={0.95} onPress={() => setDeleteModalVisible(false)}>
           <TouchableOpacity style={styles.ModalBottomView2} activeOpacity={1}>
             <View style={styles.DeleteView}>
-               <Text style={styles.AddTecxt}>Delete List</Text>
-               <Text style={styles.ItemText, {marginTop: 15}}>You can't undo this action</Text>
-               <View style={styles.ReverseRowView}>
-                  <TouchableOpacity activeOpacity={0.8} style={styles.YesBtn} onPress={() => setDeleteModalVisible(false)}>
-                    <Text style={[styles.BtnText]}>Delete</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity activeOpacity={0.8} style={styles.NoBtn} onPress={() => setDeleteModalVisible(false)}>
-                    <Text style={[styles.BtnText, {color: 'black'}]}>Cancel</Text>
-                  </TouchableOpacity>
-               </View>
+              <Text style={styles.AddTecxt}>Delete List</Text>
+              <Text style={styles.ItemText, { marginTop: 15 }}>You can't undo this action</Text>
+              <View style={styles.ReverseRowView}>
+                <TouchableOpacity activeOpacity={0.8} style={styles.YesBtn} onPress={() => setDeleteModalVisible(false)}>
+                  <Text style={[styles.BtnText]}>Delete</Text>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.8} style={styles.NoBtn} onPress={() => setDeleteModalVisible(false)}>
+                  <Text style={[styles.BtnText, { color: 'black' }]}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -120,7 +137,6 @@ function ListingsScreen({ navigation, route }) {
 
 const styles = StyleSheet.create({
   screen: {
-    padding: 20,
     backgroundColor: colors.light,
   },
   ModalMainView: {
@@ -215,10 +231,10 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
   },
   AbsoluteAddBtn: {
-    height: 60,
-    width: 60,
+    height: 40,
+    width: 40,
     position: 'absolute',
-    bottom: 50,
+    bottom: 40,
     right: 20,
     justifyContent: 'center',
     alignItems: 'center',
