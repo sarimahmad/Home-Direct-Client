@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   Picker,
 } from "react-native";
-import { MaterialIcons } from '@expo/vector-icons'
+import { MaterialIcons, SimpleLineIcons,AntDesign } from '@expo/vector-icons'
 
 import colors from "../config/colors";
 import Text from "../components/Text";
@@ -19,6 +19,15 @@ import { FlatList } from "react-native-gesture-handler";
 import Icon from "../components/Icon";
 
 var selectedItem = [];
+
+const listAll = [
+  { id: 2, title: 'Drill bits' },
+  { id: 1, title: 'Drywall screws' },
+  { id: 3, title: 'Electrical tape' },
+  { id: 4, title: 'Putty' },
+  { id: 17, title: 'Stud finder' },
+  { id: 5, title: 'Wood shims' },
+];
 
 function ToolsMaterialScreen({ route, navigation }) {
   const params = route.params;
@@ -30,6 +39,8 @@ function ToolsMaterialScreen({ route, navigation }) {
   const [showPicker, setShowPicker] = useState(false);
   const [spoon, setSpoon] = useState('TableSpoon');
   const [spoonValue, setSpoonValue] = useState('2');
+  const [optionModalVisible, setOptionModalVisible] = useState(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
   function checkItemInChechList(title) {
     if (selectedItem.includes(title)) {
@@ -64,43 +75,21 @@ function ToolsMaterialScreen({ route, navigation }) {
           <View style={styles.sortView}>
             <Text style={styles.sortText} onPress={() => setSeletedSort(!seletedSort)}>
               <Text style={styles.sortText}>sort by </Text>
-              <Text style={[styles.sortText, { color: colors.orange }]}>{seletedSort === true ? 'tools' : 'material'}</Text>
+              <Text style={[styles.sortText, { color: colors.orange }]}>{seletedSort === true ? 'Reciepe' : 'aisle'}</Text>
             </Text>
             <TouchableHighlight style={{ position: 'absolute', right: 5 }}>
               <MaterialIcons name="arrow-drop-down" color={colors.blue} size={20} />
             </TouchableHighlight>
           </View>
         </View>
-        {(params.type === 'all' || params.type === 'tool') && <View style={styles.listWrapperView}>
-          <View style={styles.listHeaderView}>
-            <Text style={styles.headerTitleText}>Tools</Text>
-            <View style={styles.headerRightView}>
-              <Text onPress={() => selectAll(params.toolsList)} style={[styles.headerTitleText, { marginRight: SCREEN.width / 6 }]}>Select All</Text>
-            </View>
-          </View>
-          <FlatList
-            data={params.toolsList}
-            keyExtractor={(ite, index) => index.toString()}
-            extraData={loading}
-            renderItem={(item) => <TouchableOpacity style={styles.itemWrapper} activeOpacity={1} onPress={() => {
-              setItemSelected(item.item.title)
-              setOpenModelEdit(true)
-            }}>
-              <Text>🍔</Text>
-              <Text style={{ marginLeft: 10 }}>{item.item.title}</Text>
-              <View style={styles.headerRightView}>
-                <TouchableOpacity onPress={() => checkItemInChechList(item.item.title)}>
-                  <Icon name={selectedItem.includes(item.item.title) ? 'checkbox-marked-outline' : "checkbox-blank-outline"} backgroundColor={colors.white} iconColor={colors.black} />
-                </TouchableOpacity>
-              </View>
-            </TouchableOpacity>}
-          />
-        </View>}
-        {(params.type === 'all' || params.type === 'material') && <View style={styles.listWrapperView}>
+        {(params.type === 'all' || params.type === 'material') && seletedSort === true && <View style={styles.listWrapperView}>
           <View style={styles.listHeaderView}>
             <Text style={styles.headerTitleText}>Material</Text>
             <View style={styles.headerRightView}>
-              <Text onPress={() => selectAll(params.materialsList)} style={[styles.headerTitleText, { marginRight: SCREEN.width / 6 }]}>Select All</Text>
+              <Text onPress={() => selectAll(params.materialsList)} style={[styles.headerTitleText, { marginRight: SCREEN.width / 6 }]}>Check All</Text>
+              <TouchableHighlight style={styles.AbsoluteRightView} onPress={() => setOptionModalVisible(true)} underlayColor={colors.white}>
+                <SimpleLineIcons name="options" size={20} color={'black'} />
+              </TouchableHighlight>
             </View>
           </View>
           <FlatList
@@ -122,6 +111,63 @@ function ToolsMaterialScreen({ route, navigation }) {
           />
         </View>}
 
+        {(params.type === 'all' || params.type === 'tool') && seletedSort === true  && <View style={styles.listWrapperView}>
+          <View style={styles.listHeaderView}>
+            <Text style={styles.headerTitleText}>Tools</Text>
+            <View style={styles.headerRightView}>
+              <Text onPress={() => selectAll(params.toolsList)} style={[styles.headerTitleText, { marginRight: SCREEN.width / 6 }]}>Check All</Text>
+              <TouchableHighlight style={styles.AbsoluteRightView} onPress={() => setOptionModalVisible(true)} underlayColor={colors.white}>
+                <SimpleLineIcons name="options" size={20} color={'black'} />
+              </TouchableHighlight>
+            </View>
+          </View>
+          <FlatList
+            data={params.toolsList}
+            keyExtractor={(ite, index) => index.toString()}
+            extraData={loading}
+            renderItem={(item) => <TouchableOpacity style={styles.itemWrapper} activeOpacity={1} onPress={() => {
+              setItemSelected(item.item.title)
+              setOpenModelEdit(true)
+            }}>
+              <Text>🍔</Text>
+              <Text style={{ marginLeft: 10 }}>{item.item.title}</Text>
+              <View style={styles.headerRightView}>
+                <TouchableOpacity onPress={() => checkItemInChechList(item.item.title)}>
+                  <Icon name={selectedItem.includes(item.item.title) ? 'checkbox-marked-outline' : "checkbox-blank-outline"} backgroundColor={colors.white} iconColor={colors.black} />
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>}
+          />
+        </View>}
+        { seletedSort === false  && <View style={styles.listWrapperView}>
+          <View style={styles.listHeaderView}>
+            <Text style={styles.headerTitleText}>My Items</Text>
+            <View style={styles.headerRightView}>
+              <Text onPress={() => selectAll(params.toolsList)} style={[styles.headerTitleText, { marginRight: SCREEN.width / 6 }]}>Check All</Text>
+              <TouchableHighlight style={styles.AbsoluteRightView} onPress={() => setOptionModalVisible(true)} underlayColor={colors.white}>
+                <SimpleLineIcons name="options" size={20} color={'black'} />
+              </TouchableHighlight>
+            </View>
+          </View>
+          <FlatList
+            data={params.type === 'tool' ? params.toolsList : params.type === 'material' ? params.materialsList : listAll}
+            keyExtractor={(ite, index) => index.toString()}
+            extraData={loading}
+            renderItem={(item) => <TouchableOpacity style={styles.itemWrapper} activeOpacity={1} onPress={() => {
+              setItemSelected(item.item.title)
+              setOpenModelEdit(true)
+            }}>
+              <Text>🍔</Text>
+              <Text style={{ marginLeft: 10 }}>{item.item.title}</Text>
+              <View style={styles.headerRightView}>
+                <TouchableOpacity onPress={() => checkItemInChechList(item.item.title)}>
+                  <Icon name={selectedItem.includes(item.item.title) ? 'checkbox-marked-outline' : "checkbox-blank-outline"} backgroundColor={colors.white} iconColor={colors.black} />
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>}
+          />
+        </View>}
+     
       </View>
       <TouchableOpacity style={styles.AbsoluteAddBtn} activeOpacity={0.8} onPress={() => navigation.navigate('AddNew')} >
         <MaterialIcons name="add" color={colors.white} size={30} />
@@ -196,6 +242,72 @@ function ToolsMaterialScreen({ route, navigation }) {
             }</TouchableOpacity>
         </TouchableOpacity>
       </Modal>
+     
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={optionModalVisible}
+        onRequestClose={() => {
+          setOptionModalVisible(false)
+        }}>
+        <TouchableOpacity style={styles.ModalMainView} activeOpacity={0.95} onPress={() => setOptionModalVisible(false)}>
+          <TouchableOpacity style={styles.ModalBottomView} activeOpacity={1}>
+            <View style={styles.TopDividerView}>
+              <Text style={styles.TopDividerText}>----</Text>
+            </View>
+            <TouchableOpacity style={styles.ModalItemWrapper} activeOpacity={0.8} onPress={() => {
+              setOptionModalVisible(false);
+            }} >
+              <View style={styles.AddWrapper}>
+                <AntDesign name="edit" color={'grey'} size={20} />
+              </View>
+              <Text style={styles.ItemText}> Rename</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.ModalItemWrapper} activeOpacity={0.8} onPress={() => {
+              setOptionModalVisible(false);
+            }} >
+              <View style={styles.AddWrapper}>
+                <MaterialIcons name="remove-circle" color={'grey'} size={20} />
+              </View>
+              <Text style={styles.ItemText}> Remove all items</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.ModalItemWrapper} activeOpacity={0.8} onPress={() => {
+              setOptionModalVisible(false);
+              setDeleteModalVisible(true);
+            }}>
+              <View style={styles.AddWrapper}>
+                <AntDesign name="delete" color={'grey'} size={20} />
+              </View>
+              <Text style={styles.ItemText}> Delete list</Text>
+            </TouchableOpacity>
+          </TouchableOpacity>
+        </TouchableOpacity>
+      </Modal>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={deleteModalVisible}
+        onRequestClose={() => {
+          setDeleteModalVisible(false)
+        }}>
+        <TouchableOpacity style={styles.ModalMainView2} activeOpacity={0.95} onPress={() => setDeleteModalVisible(false)}>
+          <TouchableOpacity style={styles.ModalBottomView2} activeOpacity={1}>
+            <View style={styles.DeleteView}>
+              <Text style={styles.AddTecxt}>Delete List</Text>
+              <Text style={styles.ItemText, { marginTop: 15 }}>You can't undo this action</Text>
+              <View style={styles.ReverseRowView}>
+                <TouchableOpacity activeOpacity={0.8} style={styles.YesBtn} onPress={() => setDeleteModalVisible(false)}>
+                  <Text style={[styles.BtnText]}>Delete</Text>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.8} style={styles.NoBtn} onPress={() => setDeleteModalVisible(false)}>
+                  <Text style={[styles.BtnText, { color: 'black' }]}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </TouchableOpacity>
+      </Modal>
+   
     </View>
   );
 }
@@ -291,6 +403,105 @@ const styles = StyleSheet.create({
   },
   TopDividerText: {
     color: 'white',
+  },
+  AbsoluteRightView: {
+    position: 'absolute',
+    right: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 40,
+    width: 40,
+  },
+  ModalMainView: {
+    height: SCREEN.height,
+    width: SCREEN.width,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)'
+  },
+  ModalMainView2: {
+    height: SCREEN.height,
+    width: SCREEN.width,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)'
+  },
+  ModalBottomView: {
+    height: SCREEN.height / 2,
+    width: SCREEN.width,
+    backgroundColor: colors.white,
+  },
+  ModalBottomView2: {
+    height: 150,
+    width: SCREEN.width,
+    borderRadius: 10,
+  },
+  TopDividerView: {
+    height: 20,
+    width: '100%',
+    backgroundColor: 'rgba(142,142,142,1)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  TopDividerText: {
+    color: 'white',
+  },
+  ModalItemWrapper: {
+    height: 40,
+    paddingLeft: 15,
+    marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  AddWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  AddTecxt: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: 'rgba(142,142,142,1)',
+  },
+  ItemText: {
+    fontSize: 14,
+    color: 'rgba(160,160,160,1)',
+    marginLeft: 10,
+    fontWeight: '600',
+  },
+  DeleteView: {
+    width: '95%',
+    padding: 20,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    alignSelf: 'center',
+  },
+  ReverseRowView: {
+    width: '100%',
+    height: 40,
+    alignItems: 'center',
+    flexDirection: 'row-reverse',
+    marginTop: 20,
+  },
+  YesBtn: {
+    backgroundColor: colors.primary,
+    height: 35,
+    paddingHorizontal: 19,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 10,
+  },
+  BtnText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: colors.white,
+  },
+  NoBtn: {
+    backgroundColor: colors.white,
+    height: 35,
+    paddingHorizontal: 19,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 0.5,
   },
 });
 

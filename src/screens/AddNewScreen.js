@@ -35,7 +35,94 @@ function AddProjectScreen({ route, navigation }) {
         </View>
         <View style={{ flex: 1, backgroundColor: colors.light }}>
           <FlatList
-            data={['butter', 'Butter coockies', 'butter mix']}
+            data={[
+              {
+                id: 21,
+                homedepotId: "D21",
+                name: "Lumber",
+              },
+              {
+                id: 22,
+                homedepotId: "D22",
+                name: "Building Materials",
+              },
+              {
+                id: 23,
+                homedepotId: "D23",
+                name: "Flooring",
+              },
+               {
+                id: 24,
+                homedepotId: "D24",
+                name: "Paint",
+              },
+               {
+                id: 25,
+                homedepotId: "D25",
+                name: "Tools & Hardware",
+              },
+               {
+                id: 26,
+                homedepotId: "D26",
+                name: "Plumbing",
+              },
+               {
+                id: 27,
+                homedepotId: "D27",
+                name: "Electrical",
+              },
+               {
+                id: 28,
+                homedepotId: "D28",
+                name: "Lawn & Garden",
+              },
+               {
+                id: 29,
+                homedepotId: "D29",
+                name: "Kitchen & Bath",
+              },
+               {
+                id: 30,
+                homedepotId: "D30",
+                name: "Millwork",
+              },
+             {
+                id: 42,
+                homedepotId: "D42",
+                name: "Pro Desk",
+              },
+               {
+                id: 59,
+                homedepotId: "D59",
+                name: "Decor/Storage/Blinds",
+              },
+               {
+                id: 70,
+                homedepotId: "D70",
+                name: "Appliances",
+              },
+               {
+                id: 78,
+                homedepotId: "D78",
+                name: "Tool Rental",
+              },
+                 {
+                id: 85,
+                homedepotId: "D85",
+                name: "Kitchen & Bath",
+              },
+                  {
+                id: 90,
+                homedepotId: "D90",
+                name: "Cashier",
+              },
+                 {
+                id: 96,
+                homedepotId: "D96",
+                name: "Lot",
+              },
+                
+            ]}
             keyExtractor={(item, index) => index.toString()}
             renderItem={(item, index) => <TouchableOpacity
             onPress={() => navigation.pop()}
@@ -58,7 +145,7 @@ function AddProjectScreen({ route, navigation }) {
               }}>
               <MaterialIcons name="add" color={colors.grey} size={30} />
               <Text style={{ fontSize: 15, marginLeft: 14 }}>
-                {item.item + '     ' + '🍔'}
+                {item.item.name + '     ' + '🍔'}
               </Text>
               </View>
             </TouchableOpacity>} />
