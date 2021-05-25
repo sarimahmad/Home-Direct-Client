@@ -19,15 +19,15 @@ import { SCREEN } from "../config/Constant";
 // This is just for demo purposes. 
 // the data should be pulled from the data/toolsList and data/materialsList (server side code)
 const toolsList = [
-  { id: 2, title: 'Drill bits' },
-  { id: 3, title: 'Electrical tape' },
-  { id: 17, title: 'Stud finder' },
+  { id: 2, title: 'Drill bits', qty: 4 },
+  { id: 3, title: 'Electrical tape', qty: 2  },
+  { id: 17, title: 'Stud finder', qty: 1  },
 ];
 
 const materialsList = [
-  { id: 1, title: 'Drywall screws' },
-  { id: 4, title: 'Putty' },
-  { id: 5, title: 'Wood shims' },
+  { id: 1, title: 'Drywall screws', qty: 2 },
+  { id: 4, title: 'Putty', qty: 3},
+  { id: 5, title: 'Wood shims', qty: 4},
 ];
 
 function ListingDetailsScreen({ route, navigation }) {

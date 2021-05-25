@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   Picker,
 } from "react-native";
-import { MaterialIcons, SimpleLineIcons,AntDesign } from '@expo/vector-icons'
+import { MaterialIcons, SimpleLineIcons, AntDesign } from '@expo/vector-icons'
 
 import colors from "../config/colors";
 import Text from "../components/Text";
@@ -21,13 +21,15 @@ import Icon from "../components/Icon";
 var selectedItem = [];
 
 const listAll = [
-  { id: 2, title: 'Drill bits' },
-  { id: 1, title: 'Drywall screws' },
-  { id: 3, title: 'Electrical tape' },
-  { id: 4, title: 'Putty' },
-  { id: 17, title: 'Stud finder' },
-  { id: 5, title: 'Wood shims' },
+  { id: 2, title: 'Drill bits', qty: 3 },
+  { id: 1, title: 'Drywall screws', qty: 2 },
+  { id: 3, title: 'Electrical tape', qty: 2 },
+  { id: 4, title: 'Putty', qty: 2 },
+  { id: 17, title: 'Stud finder', qty: 1 },
+  { id: 5, title: 'Wood shims', qty: 4 },
 ];
+
+var selectedList = [{ id: 2, title: 'Drywall screws', qty: 2 }];
 
 function ToolsMaterialScreen({ route, navigation }) {
   const params = route.params;
@@ -41,21 +43,34 @@ function ToolsMaterialScreen({ route, navigation }) {
   const [spoonValue, setSpoonValue] = useState('2');
   const [optionModalVisible, setOptionModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [checkedList, setCheckedList] = useState([{ id: 2, title: 'Drill bits', qty: 4 }]);
 
-  function checkItemInChechList(title) {
-    if (selectedItem.includes(title)) {
-      const index = selectedItem.indexOf(title);
-      selectedItem.splice(index, 1);
+  function checkItemInChechList(item) {
+    if (selectedList.some(objectList => objectList.title === item.title)) {
+      const index = selectedList.findIndex(x => x.title === item.title)
+      selectedList.splice(index, 1);
+      setCheckedList(selectedList)
       setLoading(!loading);
     } else {
-      selectedItem.push(title);
+      selectedList.push(item);
+      setCheckedList(selectedList);
+      setLoading(!loading);
+    }
+  }
+
+  function checkItemInAll(item) {
+    if (selectedList.some(objectList => objectList.title === item.title)) {
+      setLoading(!loading);
+    } else {
+      selectedList.push(item);
+      setCheckedList(selectedList);
       setLoading(!loading);
     }
   }
 
   function selectAll(filterList) {
     filterList.forEach(item => {
-      checkItemInChechList(item.title)
+      checkItemInAll(item)
     })
   }
 
@@ -102,16 +117,17 @@ function ToolsMaterialScreen({ route, navigation }) {
             }}>
               <Text>🍔</Text>
               <Text style={{ marginLeft: 10 }}>{item.item.title}</Text>
+              <Text style={{fontSize: 10, color: 'grey', marginLeft: 15}}>{item.item.qty}</Text>
               <View style={styles.headerRightView}>
-                <TouchableOpacity onPress={() => checkItemInChechList(item.item.title)}>
-                  <Icon name={selectedItem.includes(item.item.title) ? 'checkbox-marked-outline' : "checkbox-blank-outline"} backgroundColor={colors.white} iconColor={colors.black} />
+                <TouchableOpacity onPress={() => checkItemInChechList(item.item)}>
+                  <Icon name={checkedList.some(objectList => objectList.title === item.item.title) ? 'checkbox-marked-outline' : "checkbox-blank-outline"} backgroundColor={colors.white} iconColor={colors.black} />
                 </TouchableOpacity>
               </View>
             </TouchableOpacity>}
           />
         </View>}
 
-        {(params.type === 'all' || params.type === 'tool') && seletedSort === true  && <View style={styles.listWrapperView}>
+        {(params.type === 'all' || params.type === 'tool') && seletedSort === true && <View style={styles.listWrapperView}>
           <View style={styles.listHeaderView}>
             <Text style={styles.headerTitleText}>Tools</Text>
             <View style={styles.headerRightView}>
@@ -131,26 +147,28 @@ function ToolsMaterialScreen({ route, navigation }) {
             }}>
               <Text>🍔</Text>
               <Text style={{ marginLeft: 10 }}>{item.item.title}</Text>
+              <Text style={{fontSize: 10, color: 'grey', marginLeft: 15}}>{item.item.qty}</Text>
               <View style={styles.headerRightView}>
-                <TouchableOpacity onPress={() => checkItemInChechList(item.item.title)}>
-                  <Icon name={selectedItem.includes(item.item.title) ? 'checkbox-marked-outline' : "checkbox-blank-outline"} backgroundColor={colors.white} iconColor={colors.black} />
+                <TouchableOpacity onPress={() => checkItemInChechList(item.item)}>
+                  <Icon name={checkedList.some(objectList => objectList.title === item.item.title) ? 'checkbox-marked-outline' : "checkbox-blank-outline"} backgroundColor={colors.white} iconColor={colors.black} />
                 </TouchableOpacity>
               </View>
             </TouchableOpacity>}
           />
         </View>}
-        { seletedSort === false  && <View style={styles.listWrapperView}>
+        
+        {(params.type === 'all' || params.type === 'material') && seletedSort === false && <View style={styles.listWrapperView}>
           <View style={styles.listHeaderView}>
-            <Text style={styles.headerTitleText}>My Items</Text>
+            <Text style={styles.headerTitleText}>Dept:Lumber</Text>
             <View style={styles.headerRightView}>
-              <Text onPress={() => selectAll(params.toolsList)} style={[styles.headerTitleText, { marginRight: SCREEN.width / 6 }]}>Check All</Text>
+              <Text onPress={() => selectAll(params.materialsList)} style={[styles.headerTitleText, { marginRight: SCREEN.width / 6 }]}>Check All</Text>
               <TouchableHighlight style={styles.AbsoluteRightView} onPress={() => setOptionModalVisible(true)} underlayColor={colors.white}>
                 <SimpleLineIcons name="options" size={20} color={'black'} />
               </TouchableHighlight>
             </View>
           </View>
           <FlatList
-            data={params.type === 'tool' ? params.toolsList : params.type === 'material' ? params.materialsList : listAll}
+            data={params.materialsList}
             keyExtractor={(ite, index) => index.toString()}
             extraData={loading}
             renderItem={(item) => <TouchableOpacity style={styles.itemWrapper} activeOpacity={1} onPress={() => {
@@ -159,15 +177,78 @@ function ToolsMaterialScreen({ route, navigation }) {
             }}>
               <Text>🍔</Text>
               <Text style={{ marginLeft: 10 }}>{item.item.title}</Text>
+              <Text style={{fontSize: 10, color: 'grey', marginLeft: 15}}>{item.item.qty}</Text>
               <View style={styles.headerRightView}>
-                <TouchableOpacity onPress={() => checkItemInChechList(item.item.title)}>
-                  <Icon name={selectedItem.includes(item.item.title) ? 'checkbox-marked-outline' : "checkbox-blank-outline"} backgroundColor={colors.white} iconColor={colors.black} />
+                <TouchableOpacity onPress={() => checkItemInChechList(item.item)}>
+                  <Icon name={checkedList.some(objectList => objectList.title === item.item.title) ? 'checkbox-marked-outline' : "checkbox-blank-outline"} backgroundColor={colors.white} iconColor={colors.black} />
                 </TouchableOpacity>
               </View>
             </TouchableOpacity>}
           />
         </View>}
-     
+
+        {(params.type === 'all' || params.type === 'tool') && seletedSort === false && <View style={styles.listWrapperView}>
+          <View style={styles.listHeaderView}>
+            <Text style={styles.headerTitleText}>Dept:Flooring</Text>
+            <View style={styles.headerRightView}>
+              <Text onPress={() => selectAll(params.toolsList)} style={[styles.headerTitleText, { marginRight: SCREEN.width / 6 }]}>Check All</Text>
+              <TouchableHighlight style={styles.AbsoluteRightView} onPress={() => setOptionModalVisible(true)} underlayColor={colors.white}>
+                <SimpleLineIcons name="options" size={20} color={'black'} />
+              </TouchableHighlight>
+            </View>
+          </View>
+          <FlatList
+            data={params.toolsList}
+            keyExtractor={(ite, index) => index.toString()}
+            extraData={loading}
+            renderItem={(item) => <TouchableOpacity style={styles.itemWrapper} activeOpacity={1} onPress={() => {
+              setItemSelected(item.item.title)
+              setOpenModelEdit(true)
+            }}>
+              <Text>🍔</Text>
+              <Text style={{ marginLeft: 10 }}>{item.item.title}</Text>
+              <Text style={{fontSize: 10, color: 'grey', marginLeft: 15}}>{item.item.qty}</Text>
+              <View style={styles.headerRightView}>
+                <TouchableOpacity onPress={() => checkItemInChechList(item.item)}>
+                  <Icon name={checkedList.some(objectList => objectList.title === item.item.title) ? 'checkbox-marked-outline' : "checkbox-blank-outline"} backgroundColor={colors.white} iconColor={colors.black} />
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>}
+          />
+        </View>}
+        
+        
+
+        {checkedList.length > 0 && <View style={styles.listWrapperView}>
+          <View style={styles.listHeaderView}>
+            <Text style={styles.headerTitleText}>Checked Items</Text>
+            <View style={styles.headerRightView}>
+              <TouchableHighlight style={[styles.AbsoluteRightView, { backgroundColor: 'rgba(0, 0, 0, 0.1)', paddingHorizontal: 5, height: 20, borderRadius: 15, width: 80 }]}
+                underlayColor={colors.white}>
+                <Text style={{ fontSize: 12 }}>x  Clear</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+          <FlatList
+            data={checkedList}
+            keyExtractor={(ite, index) => index.toString()}
+            extraData={checkedList}
+            renderItem={(item) => <TouchableOpacity style={styles.itemWrapper} activeOpacity={1} onPress={() => {
+              setItemSelected(item.item.title)
+              setOpenModelEdit(true)
+            }}>
+              <Text>🍔</Text>
+              <Text style={{ marginLeft: 10 }}>{item.item.title}</Text>
+              <Text style={{fontSize: 10, color: 'grey', marginLeft: 15}}>{item.item.qty}</Text>
+              <View style={styles.headerRightView}>
+                <TouchableOpacity onPress={() => checkItemInChechList(item.item)}>
+                  <Icon name={checkedList.some(objectList => objectList.title === item.item.title) ? 'checkbox-marked-outline' : "checkbox-blank-outline"} backgroundColor={colors.white} iconColor={colors.black} />
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>}
+          />
+        </View>}
+
       </View>
       <TouchableOpacity style={styles.AbsoluteAddBtn} activeOpacity={0.8} onPress={() => navigation.navigate('AddNew')} >
         <MaterialIcons name="add" color={colors.white} size={30} />
@@ -242,7 +323,7 @@ function ToolsMaterialScreen({ route, navigation }) {
             }</TouchableOpacity>
         </TouchableOpacity>
       </Modal>
-     
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -307,7 +388,7 @@ function ToolsMaterialScreen({ route, navigation }) {
           </TouchableOpacity>
         </TouchableOpacity>
       </Modal>
-   
+
     </View>
   );
 }
