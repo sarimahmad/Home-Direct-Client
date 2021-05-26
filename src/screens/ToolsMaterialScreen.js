@@ -90,7 +90,7 @@ function ToolsMaterialScreen({ route, navigation }) {
           <View style={styles.sortView}>
             <Text style={styles.sortText} onPress={() => setSeletedSort(!seletedSort)}>
               <Text style={styles.sortText}>sort by </Text>
-              <Text style={[styles.sortText, { color: colors.orange }]}>{seletedSort === true ? 'Reciepe' : 'aisle'}</Text>
+              <Text style={[styles.sortText, { color: colors.orange }]}>{seletedSort === true ? 'Type' : 'Dept'}</Text>
             </Text>
             <TouchableHighlight style={{ position: 'absolute', right: 5 }}>
               <MaterialIcons name="arrow-drop-down" color={colors.blue} size={20} />

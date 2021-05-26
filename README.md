@@ -2,6 +2,7 @@
 # Home Direct App in React Native
 
 > Configure
+- npm install (new branches)
 - npm install expo 
 
 > Start

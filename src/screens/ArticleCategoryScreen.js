@@ -16,6 +16,7 @@ import { SCREEN } from "../config/Constant";
 var indoorCategories = [];
 var outdoorCategories = [];
 
+
 function ArticleCategoryScreen({ navigation, route }) {
   const getArticlesCategoriesApi = useApi(articlesApi.getCategories);
   const getArticlesApi = useApi(articlesApi.getArticles);
