@@ -26,9 +26,9 @@ const Drawer = createDrawerNavigator();
 
 const TabStack = () => {
   return (
-    <Tab.Navigator initialRouteName={'Home'}>
+    <Tab.Navigator initialRouteName={'Artic'}>
       <Tab.Screen
-        name="Home"
+        name="Artic"
         component={ArticleNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -113,19 +113,11 @@ const AppNavigator = () => {
       drawerContent={(props) => <CustomSidebarMenu {...props} />}>
       <Drawer.Screen
         name="Home"
+        onPress={() => alert('Presses')}
         options={{
           title: 'Home',
           drawerIcon: ({ focused, size }) => (
             <Icon name="home" backgroundColor={colors.orange} />
-          )
-        }}
-        component={HomeScreenStack} />
-      <Drawer.Screen
-        name="Lists"
-        options={{
-          title: 'Lists',
-          drawerIcon: ({ focused, size }) => (
-            <Icon name="format-list-bulleted" backgroundColor={colors.blue} />
           )
         }}
         component={HomeScreenStack} />

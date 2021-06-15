@@ -42,7 +42,7 @@ function ListingsScreen({ navigation, route }) {
       <HeaderWithThreeBtn headerText={'Lists'}
         searchValue={searchState}
         rightMenuPress={() => navigation.openDrawer()}
-        backPress={() => navigation.navigate('Home')}
+        backPress={() => navigation.navigate('Artic')}
         searchPress={() => setSearchState(!searchState)} />
       <ActivityIndicator visible={getListingsApi.loading} />
       <Screen style={styles.screen}>

@@ -16,101 +16,109 @@ import { SCREEN } from "../config/Constant";
 var indoorCategories = [];
 var outdoorCategories = [];
 
+class ArticleCategoryScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchState: false,
+      indoorList: [],
+      outDoorList: [],
+      loading: false,
+      selectedIndex: 0,
+      categoriesData: [],
+      articleData: [],
+    }
+  }
 
-function ArticleCategoryScreen({ navigation, route }) {
-  const getArticlesCategoriesApi = useApi(articlesApi.getCategories);
-  const getArticlesApi = useApi(articlesApi.getArticles);
-  const [searchState, setSearchState] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [indoorList, setIndoorList] = useState('');
-  const [outdoorList, setOutdoorList] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    getArticlesCategoriesApi.request();
-    getArticlesApi.request();
-    sortData();
-  }, []);
-
-  function sortData() {
+  async sortData() {
+    const getArticlesCategoriesApi = await articlesApi.getCategories();
+    const articleData = await articlesApi.getArticles();
+    const dataRecieved = getArticlesCategoriesApi.data;
+    this.setState({articleData : articleData.data})
+    this.setState({categoriesData : dataRecieved})
     indoorCategories = []
     outdoorCategories = []
-    getArticlesCategoriesApi.data && getArticlesCategoriesApi.data.forEach(element => {
+    dataRecieved.forEach(element => {
       if (element.superCategory === 'outdoor') {
         outdoorCategories.push(element)
       } else {
         indoorCategories.push(element)
       }
     });
-    setIndoorList(indoorCategories);
-    setOutdoorList(outdoorCategories);
-    setLoading(!loading)
+    this.setState({ indoorList: indoorCategories });
+    this.setState({ outDoorList: outdoorCategories });
+    this.setState({ loading: !this.state.loading });
   }
 
   getCount = (id) => {
     let count = 0;
-    getArticlesCategoriesApi.data && getArticlesApi.data.forEach(element => {
+    this.state.articleData && this.state.articleData.forEach(element => {
       if (element.categoryId === id) { count++ }
     });
     return count;
   }
 
-  return (
-    <View style={styles.mainScreen}>
-      <HeaderWithLeftLogo headerText={'Home'}
-        searchValue={searchState}
-        rightMenuPress={() => navigation.openDrawer()}
-        searchPress={() => setSearchState(!searchState)} />
-      <ActivityIndicator visible={getArticlesCategoriesApi.loading} />
-      
-      <View style={styles.SwtchWrapper}>
-        <TouchableOpacity onPress={() => setSelectedIndex(0)} activeOpacity={0.8} style={[styles.Flex1, { backgroundColor: selectedIndex === 0 ? colors.orange : 'rgba(226, 226, 226, 1)' }]}>
-          <Text style={styles.CategoryText}>Indoor</Text>
-          <View style={styles.rightAbsoluteView}>
-            <Text style={styles.countText}>{'6'}</Text>
+  async componentDidMount() {
+    this.sortData();
+  }
+
+  render() {
+    return (
+      <View style={styles.mainScreen}>
+        <HeaderWithLeftLogo headerText={'Home'}
+          searchValue={this.state.searchState}
+          rightMenuPress={() => this.props.navigation.openDrawer()}
+          searchPress={() => this.setState({ searchState: !this.state.searchState })} />
+        <ActivityIndicator visible={!this.state.loading} />
+
+        <View style={styles.SwtchWrapper}>
+          <TouchableOpacity onPress={() => this.setState({selectedIndex: 0})} activeOpacity={0.8} style={[styles.Flex1, { backgroundColor: this.state.selectedIndex ===  0 ? colors.orange : 'rgba(226, 226, 226, 1)' }]}>
+            <Text style={styles.CategoryText}>Indoor</Text>
+            <View style={styles.rightAbsoluteView}>
+              <Text style={styles.countText}>{'6'}</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.setState({selectedIndex: 1})} activeOpacity={0.8} style={[styles.Flex1, { backgroundColor: this.state.selectedIndex === 1 ? colors.orange : 'rgba(226, 226, 226, 1)' }]}>
+            <Text style={styles.CategoryText}>Outdoor</Text>
+            <View style={styles.rightAbsoluteView}>
+              <Text style={styles.countText}>{'4'}</Text>
+            </View>
+          </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setSelectedIndex(1)} activeOpacity={0.8} style={[styles.Flex1, { backgroundColor: selectedIndex === 1 ? colors.orange : 'rgba(226, 226, 226, 1)' }]}>
-          <Text style={styles.CategoryText}>Outdoor</Text>
-          <View style={styles.rightAbsoluteView}>
-            <Text style={styles.countText}>{'4'}</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-      <Screen style={styles.screen}>
-        {getArticlesCategoriesApi.error && (
+          <Screen style={styles.screen}>
+        {this.state.error && (
           <>
             <AppText>Couldn't retrieve the Menu.</AppText>
             <Button title="Retry" onPress={getArticlesCategoriesApi.request} />
           </>
         )}
-        {selectedIndex == 0 ? <FlatList
-          data={indoorList}
+        {this.state.selectedIndex == 0 ? <FlatList
+          data={this.state.indoorList}
           keyExtractor={(item, index) => index.toString()}
-          extraData={getArticlesCategoriesApi.data}
           renderItem={({ item }) => (
             <CategoryCard
-              countValue={getCount(item.id)}
+              countValue={this.getCount(item.id)}
               title={item.name}
-              onPress={() => navigation.navigate(routes.ARTICLE_SUB_CATEGORY, item)}
+              onPress={() => this.props.navigation.navigate(routes.ARTICLE_SUB_CATEGORY, item)}
             />
           )}
         /> :
           <FlatList
-            data={outdoorList}
+            data={this.state.outDoorList}
             keyExtractor={(item, index) => index.toString()}
-            extraData={getArticlesCategoriesApi.data}
             renderItem={({ item }) => (
               <CategoryCard
-                countValue={getCount(item.id)}
+                countValue={this.getCount(item.id)}
                 title={item.name}
-                onPress={() => navigation.navigate(routes.ARTICLE_SUB_CATEGORY, item)}
+                onPress={() => this.props.navigation.navigate(routes.ARTICLE_SUB_CATEGORY, item)}
               />
             )}
           />}
       </Screen>
-    </View>
-  );
+
+        </View>
+    );
+  }
 }
 
 

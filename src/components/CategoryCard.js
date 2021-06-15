@@ -29,7 +29,6 @@ function CategoryCard({ title, count, imageUrl, onPress, thumbnailUrl, countValu
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: 'red',
     marginBottom: 5,
     justifyContent: 'center',
     height: 100,

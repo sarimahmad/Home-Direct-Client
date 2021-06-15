@@ -11,7 +11,7 @@ import {
   Linking,
   TouchableOpacity,
 } from 'react-native';
-import { FontAwesome, Fontisto } from "@expo/vector-icons";
+import { FontAwesome, Fontisto, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import {
   DrawerContentScrollView,
@@ -56,7 +56,16 @@ const CustomSidebarMenu = (props) => {
         </View>
         <DrawerContentScrollView {...props}>
           <View style={{ backgroundColor: colors.white }}>
-            <DrawerItemList {...props} />
+            <DrawerItem
+              label="Home"
+              icon={({ focused, color, size }) => <MaterialCommunityIcons name="home" color={color} size={size} />}
+              onPress={() => props.navigation.navigate('Artic')}
+            />
+            <DrawerItem
+              label="Listing"
+              icon={({ focused, color, size }) => <MaterialCommunityIcons name="format-list-bulleted" color={color} size={size} />}
+              onPress={() => props.navigation.navigate('Lists')}
+            ></DrawerItem>
           </View>
           <View style={styles.customItem}>
             <Icon
