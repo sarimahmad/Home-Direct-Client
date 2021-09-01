@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { StyleSheet, TouchableOpacity, Text } from "react-native";
+import { StyleSheet, TouchableOpacity, Text, Platform, Alert } from "react-native";
 import * as Yup from "yup";
 
 import Screen from "../components/Screen";
@@ -17,8 +17,6 @@ import ActivityIndicator from "../components/ActivityIndicator";
 import * as firebase from "firebase";
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
-import { Platform } from 'react-native';
-import routes from "../navigation/routes";
 export const isAndroid = () => Platform.OS === 'android';
 
 
@@ -58,7 +56,6 @@ function RegisterScreen() {
 
 
   useEffect(()=>{
-
   firebase.auth().onAuthStateChanged(user => {
     if (user!=null) {
       console.log("we are here ")
@@ -79,11 +76,12 @@ function RegisterScreen() {
   if (result.type === "success") {
     const { idToken, accessToken, user } = result;
     const credential = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken);
-    firebase
+    fireba
       .auth()
       .signInWithCredential(credential)
       .then(response =>{
-        console.log("SuccessFUll")
+        Alert.alert("SuccessFUll");
+        this.props.navigation.navigate()
       })              
   }
   else{
@@ -110,7 +108,9 @@ function RegisterScreen() {
     
   }
   const handleSubmit = async (userInfo) => {
+    userInfo.role = 'user';
     const result = await registerApi.request(userInfo);
+    console.log(JSON.stringify(result))
 
     if (!result.ok) {
       if (result.data) setError(result.data.error);
@@ -121,11 +121,11 @@ function RegisterScreen() {
       return;
     }
 
-    const { data: authToken } = await loginApi.request(
+    const { data: token } = await loginApi.request(
       userInfo.email,
       userInfo.password
     );
-    auth.logIn(authToken);
+    auth.logIn(token);
   };
 
   return (
@@ -164,19 +164,19 @@ function RegisterScreen() {
           />
           <SubmitButton title="Register" />
         </Form>
-      </Screen>
       <TouchableOpacity
       onPress={()=> loginWithFacebook()} 
-      style={{backgroundColor:'lightblue', width:320, alignSelf:'center', alignItems:"center", justifyContent:'center', height:50, borderRadius:22, marginBottom:200}}>
+      style={{backgroundColor:'lightblue', width: '97%', alignSelf:'center', alignItems:"center", justifyContent:'center', height:50, borderRadius:22}}>
           <Text>FaceBook Login</Text>
       </TouchableOpacity>
       <TouchableOpacity
       onPress={()=> signupGoogle()}
-           style={{backgroundColor:'lightblue', width:320, alignSelf:'center', alignItems:"center", justifyContent:'center', height:50, borderRadius:22, marginBottom:150}}>
+           style={{backgroundColor:'lightblue', width: '97%', alignSelf:'center', alignItems:"center", justifyContent:'center', height:50, borderRadius:22, marginTop: 10}}>
           <Text>Google Login</Text>
 
 
       </TouchableOpacity>
+      </Screen>
      
       
     </>
